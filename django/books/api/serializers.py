@@ -27,3 +27,6 @@ class BookSerializer(serializers.ModelSerializer):
                 AuthorBookRelation.objects.create(
                     author=author_object, book=book)
         return book
+    
+
+        

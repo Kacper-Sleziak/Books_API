@@ -4,11 +4,11 @@ from django.db import models
 
 
 class Book(models.Model):
-    external_id = models.IntegerField(null=True, blank=True)
+    external_id = models.CharField(max_length=50, null=True, blank=True)
     title = models.CharField(max_length=50, null=False, blank=False)
     published_year = models.IntegerField(null=False, blank=False)
     acquired = models.BooleanField(default=False)
-    thumbnail = models.URLField(max_length=256, )
+    thumbnail = models.URLField(max_length=256, null=True, blank=True)
 
     def get_authors(self):
         list_of_authors = []
@@ -33,3 +33,8 @@ class AuthorBookRelation(models.Model):
 class Author(models.Model):
     full_name = models.CharField(
         max_length=50, null=False, blank=False, unique=True)
+    
+
+
+    
+    
