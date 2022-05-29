@@ -92,7 +92,6 @@ class CreateBookView(views.APIView):
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-
             if 'authors' in request.data:
                 authors = request.data['authors']
                 new_book = serializer.create(serializer.data, authors=authors)
