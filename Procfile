@@ -1,1 +1,1 @@
-web: python manage.py runserver 0.0.0.0:\80
+web: python django/manage.py runserver 0.0.0.0:\80
