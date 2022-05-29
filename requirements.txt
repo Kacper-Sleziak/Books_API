@@ -12,6 +12,7 @@ Markdown==3.3.7
 pycodestyle==2.8.0
 pytz==2022.1
 requests==2.27.1
+setuptools==56.0.0 
 sqlparse==0.4.2
 toml==0.10.2
 tzdata==2022.1
