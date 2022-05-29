@@ -1,1 +1,1 @@
-web: python django/manage.py runserver 0.0.0.0
+web: gunicorn core.wsgi --log-file - 
