@@ -1,5 +1,3 @@
-from urllib import response
-from books.api import serializers
 from books.api.serializers import BookSerializer
 from rest_framework import status, views
 from books.models import Book
@@ -132,10 +130,11 @@ class BookIdView(views.APIView):
             book = Book.objects.get(id=pk)
             serializer = self.serializer_class(book)
 
-            # response_data = add_authors_to_response_data(
-            #     serializer.data, book)
+            response_data = add_authors_to_response_data(
+                serializer.data, book)
+            
             return Response(
-                serializer.data, status=status.HTTP_200_OK)
+                response_data, status=status.HTTP_200_OK)
 
         return Response(
             status=status.HTTP_204_NO_CONTENT)
@@ -146,11 +145,9 @@ class BookIdView(views.APIView):
             serializer = self.serializer_class(book, request.data)
             if serializer.is_valid():
                 book = serializer.save()
-                authors = book.get_authors()
 
                 response_data = add_authors_to_response_data(
                     serializer.data, book)
-                book_serializer = BookSerializer(book)
 
                 return Response(response_data,
                                 status=status.HTTP_200_OK)
