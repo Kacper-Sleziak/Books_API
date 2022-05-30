@@ -22,3 +22,4 @@ Application created as a recruitment task. The app is using a third-part google 
 
 ### POST/import
 - import all books for given in body author from google API
+![Przechwytywanie](https://user-images.githubusercontent.com/57037642/170962160-c8df8520-33b6-43da-a962-3d6d5ffee724.PNG)
