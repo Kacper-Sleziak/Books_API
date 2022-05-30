@@ -103,6 +103,9 @@ class BookImportView(views.APIView):
                 if not queryset.exists():
                     author = Author.objects.create(full_name=author)
                     AuthorBookRelation.objects.create(book=book, author=author)
+                else:
+                    author = queryset[0]
+                    AuthorBookRelation.objects.create(book=book, author=author)
 
     def update_exsisting_book(self, book, authors,
                               external_id, published_year, thumbnail):
