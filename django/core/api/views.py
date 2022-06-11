@@ -1,8 +1,7 @@
+from books.models import Book, Author
 from rest_framework.decorators import api_view
 from rest_framework import status, views
-from books.api.serializers import BookSerializer
 from rest_framework.response import Response
-from books.models import Book, Author, AuthorBookRelation
 import requests
 
 
@@ -55,7 +54,8 @@ class BookImportView(views.APIView):
                     book = queryset[0]
 
                     self.update_exsisting_book(book, authors,
-                                               external_id, published_year, thubnail)
+                                               external_id, published_year,
+                                               thubnail)
                 else:
                     self.create_new_book(external_id, title, authors,
                                          published_year, thubnail)
@@ -94,52 +94,47 @@ class BookImportView(views.APIView):
                         authors, published_year, thumbnail):
 
         book = Book.objects.create(external_id=external_id, title=title,
-                                   published_year=published_year, thumbnail=thumbnail)
+                                   published_year=published_year,
+                                   thumbnail=thumbnail)
 
-        if authors != None:
+        if authors is not None:
             for author in authors:
                 queryset = Author.objects.filter(full_name=author)
 
                 if not queryset.exists():
-                    author = Author.objects.create(full_name=author)
-                    AuthorBookRelation.objects.create(book=book, author=author)
+                    author_object = Author.objects.create(full_name=author)
                 else:
-                    author = queryset[0]
-                    AuthorBookRelation.objects.create(book=book, author=author)
-                    
+                    author_object = queryset[0]
+
+                book.authors.add(author_object)
 
     def update_exsisting_book(self, book, authors,
                               external_id, published_year, thumbnail):
 
-        if external_id != None:
+        if external_id is not None:
             book.external_id = external_id
 
-        if published_year != None:
+        if published_year is not None:
             book.published_year = published_year
 
-        if thumbnail != None:
-            book.thumbnail != None
+        if thumbnail is not None:
+            book.thumbnail is not None
 
         book.save()
         book_authors = book.get_authors()
 
-        # Updating authors and book relations
-        # for author fetched from google
-
         def update_books_authors(author_name, book):
             author_queryset = Author.objects.filter(full_name=author_name)
 
-            author = None
             if author_queryset.exists():
                 author = author_queryset[0]
             else:
                 author = Author.objects.create(full_name=author_name)
 
-            AuthorBookRelation.objects.create(
-                book=book, author=author)
+            book.authors.add(author)
 
-        if authors != None:
+        if authors is not None:
             for author in authors:
                 # book_authors are authors from actual db
-                if not author in book_authors:
+                if author not in book_authors:
                     update_books_authors(author, book)

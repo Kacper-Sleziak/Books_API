@@ -1,18 +1,7 @@
+from books.models import Book
 from books.api.serializers import BookSerializer
 from rest_framework import status, views
-from books.models import Book
 from rest_framework.response import Response
-
-# This function help to add additional to book's serializer
-# response
-
-
-def add_authors_to_response_data(response_data, book):
-    authors = book.get_authors()
-
-    # Adding list of authors'' names to reponse
-    response_data['authors'] = authors
-    return response_data
 
 
 class BookDetailFilterView(views.APIView):
@@ -24,10 +13,6 @@ class BookDetailFilterView(views.APIView):
 
         if queryset.exists():
             response_data = serializer.data
-            for i in range(len(queryset)):
-                book = queryset[i]
-                response_data[i] = add_authors_to_response_data(
-                    response_data[i], book)
 
             return Response(response_data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -70,7 +55,7 @@ class BookDetailFilterView(views.APIView):
 
             # Checking every book in actual queryset
             for book in queryset:
-                book_authors = book.get_authors()
+                book_authors = book.authors.all()
                 # Checking every author of book
                 for book_author in book_authors:
                     # Add if full_name contains author param
@@ -99,14 +84,13 @@ class CreateBookView(views.APIView):
                 new_book = serializer.create(serializer.data)
 
             book_serializer = BookSerializer(new_book)
-
-            response_data = add_authors_to_response_data(
-                book_serializer.data, new_book)
+            response_data = book_serializer.data
 
             return Response(
                 response_data,
                 status.HTTP_201_CREATED)
         return Response(
+            serializer.errors,
             status=status.HTTP_400_BAD_REQUEST)
 
 # [GET, POST, DELETE] View for basic operations
@@ -129,12 +113,8 @@ class BookIdView(views.APIView):
             book = Book.objects.get(id=pk)
             serializer = self.serializer_class(book)
 
-            response_data = add_authors_to_response_data(
-                serializer.data, book)
-            
             return Response(
-                response_data, status=status.HTTP_200_OK)
-
+                serializer.data, status=status.HTTP_200_OK)
         return Response(
             status=status.HTTP_204_NO_CONTENT)
 
@@ -145,14 +125,10 @@ class BookIdView(views.APIView):
             if serializer.is_valid():
                 book = serializer.save()
 
-                response_data = add_authors_to_response_data(
-                    serializer.data, book)
-
-                return Response(response_data,
+                return Response(serializer.data,
                                 status=status.HTTP_200_OK)
-
-            return Response(
-                status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
         return Response(
             status=status.HTTP_204_NO_CONTENT)
@@ -163,6 +139,5 @@ class BookIdView(views.APIView):
             book.delete()
             return Response(
                 status=status.HTTP_200_OK)
-
         return Response(
             status=status.HTTP_204_NO_CONTENT)

@@ -1,9 +1,16 @@
+from books.models import Book, Author
 from rest_framework import serializers
-from books.models import Book, Author, AuthorBookRelation
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ('full_name', )
 
 
 class BookSerializer(serializers.ModelSerializer):
-    authors = serializers.ListField(write_only=True, required=False)
+
+    authors = AuthorSerializer(read_only=True, many=True)
 
     class Meta:
         model = Book
@@ -24,9 +31,7 @@ class BookSerializer(serializers.ModelSerializer):
                     author_object = new_author
                 else:
                     author_object = queryset[0]
-                AuthorBookRelation.objects.create(
-                    author=author_object, book=book)
-        return book
-    
 
-        
+                book.authors.add(author_object)
+
+        return book

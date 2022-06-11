@@ -1,0 +1,132 @@
+{% load static %}
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="p-5 mb-2 bg-white text-dark">
+        <h2>BOOKS API DOCS</h2>
+        <h4>PK in endpoints stands for primary key</h4>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-success" disabled>GET</button>
+            </div>
+            
+            <div class="col-sm">
+                <h4>/api_spec</h4>
+            </div>
+            <br>
+            
+            <div class="col-sm">
+                <span>Return information about API<span>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-success" disabled>GET</button>
+            </div>
+            
+            <div class="col-sm">
+                <h4>/books</h4>
+            </div>
+            <br>
+            
+            <div class="col-sm">
+                <span>Return books for given params (title, authors[], from, to, acquired), 
+                    return all books for zero parameters<span>
+            </div>
+        </div>
+
+        <br>
+        
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-primary" disabled>POST</button>
+            </div>
+            
+            <div class="col-sm">
+                <h4>/books/create</h4>
+            </div>
+            <br>
+            
+            <div class="col-sm">
+                <span>Create a book for given in-body parameters<span>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-success" disabled>GET</button>
+            </div>
+            
+            <div class="col-sm">
+                <h4>/books/{pk}</h4>
+            </div>
+            <br>
+            
+            <div class="col-sm">
+                <span>Return book with the given id<span>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-warning" disabled>PUT</button>
+            </div>
+            
+            <div class="col-sm">
+                <h4>/books/{pk}</h4>
+            </div>
+            <br>
+            
+            <div class="col-sm">
+                <span>Edit book with the given id<span>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-danger" disabled>DELETE</button>
+            </div>
+            
+            <div class="col-sm">
+                <h4>/books/{pk}</h4>
+            </div>
+            <br>
+            
+            <div class="col-sm">
+                <span>Delete book with the given id<span>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-primary" disabled>POST</button>
+            </div>
+            
+            <div class="col-sm">
+                <h4>/import</h4>
+            </div>
+            <br>
+            
+            <div class="col-sm">
+                <span>Import all books for given in-body author from google API<span>
+            </div>
+        </div>
+</body>
+</html>
