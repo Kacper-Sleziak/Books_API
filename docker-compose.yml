@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   backend:
+    image: booksapi.azurecr.io/backend
     build:
       context: .
     command: /bin/sh /django/start-backend.sh
@@ -13,14 +14,10 @@ services:
       - db:db
     networks:
       - djangonetwork
-    volumes:
-      - .:/django
-      - /django/venv
+    domainname: "booksapi"
   
   db:
     image: postgres
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
     env_file:
       - .env
     networks:

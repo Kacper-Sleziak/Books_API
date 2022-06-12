@@ -133,7 +133,7 @@ class BookIdView(views.APIView):
         return Response(
             status=status.HTTP_204_NO_CONTENT)
 
-    def delete(self, request, pk, fromat=None):
+    def delete(self, request, pk, format=None):
         if self.is_book_with_given_id(pk):
             book = Book.objects.get(id=pk)
             book.delete()
