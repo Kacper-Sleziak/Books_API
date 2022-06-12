@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+    command: /bin/sh /django/start-backend.sh
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    links:
+      - db:db
+    networks:
+      - djangonetwork
+    volumes:
+      - .:/django
+      - /django/venv
+  
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - djangonetwork
+  
+networks:
+  djangonetwork:
+    driver: bridge
